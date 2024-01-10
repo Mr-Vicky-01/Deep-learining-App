@@ -30,6 +30,8 @@ app.mount("/models/weather/static", StaticFiles(directory='models/weather/static
 app.mount("/models/sports_ball/static", StaticFiles(directory='models/sports_ball/static'), name='static_sports_ball')
 app.mount("/models/mammals/static", StaticFiles(directory='models/mammals/static'), name='static_mammals')
 app.mount("/models/flower/static", StaticFiles(directory='models/flower/static'), name='static_flower')
+app.mount("/models/card/static", StaticFiles(directory='models/card/static'), name='static_card')
+app.mount("/models/dog_breed/static", StaticFiles(directory='models/dog_breed/static'), name='static_dog_breed')
 
 # templates
 templates = Jinja2Templates(directory="frontend")
@@ -37,10 +39,12 @@ templates1 = Jinja2Templates(directory="models")
 
 # DL or Ml Models (Loading)..
 sports_ball_model = tf.keras.models.load_model('models/sports_ball/Sports_ball_prediction_v2.h5')
-weather_model = tf.keras.models.load_model('models/weather/card_model_v2.h5')
+weather_model = tf.keras.models.load_model('models/weather/weather_prediction_v2.h5')
 flower_model = tf.keras.models.load_model('models/flower/flower_prediction.h5')
 yoga_pose_model = tf.keras.models.load_model('models/yoga_pose/yoga-modelv2.h5')
 mammals_model = tf.keras.models.load_model('models/mammals/Mammals_predictionv1.h5')
+card_model = tf.keras.models.load_model('models/card/card_model_v2.h5')
+dog_breed_model = tf.keras.models.load_model("models/dog_breed/dog_breedv3.h5")
 
 
 # classes For All Models
@@ -74,6 +78,20 @@ cards_class = ['ace of clubs', 'ace of diamonds', 'ace of hearts', 'ace of spade
                'three of hearts', 'three of spades', 'two of clubs', 'two of diamonds', 'two of hearts',
                'two of spades']
 
+weather_class = ['dew', 'fogsmog', 'frost', 'glaze', 'hail', 'lightning', 'rain', 'rainbow', 'rime', 'sandstorm',
+                 'snow']
+
+dog_breed_class = ['Afghan','African Wild Dog', 'Airedale', 'American Hairless','American Spaniel', 'Basenji', 'Basset',
+                   'Beagle', 'Bearded Collie', 'Bermaise', 'Bichon Frise', 'Blenheim', 'Bloodhound', 'Bluetick',
+                   'Border Collie','Borzoi','Boston Terrier', 'Boxer', 'Bull Mastiff', 'Bull Terrier', 'Bulldog',
+                   'Cairn', 'Chihuahua', 'Chinese Crested','Chow', 'Clumber','Cockapoo', 'Cocker', 'Collie', 'Corgi',
+                   'Coyote', 'Dalmation', 'Dhole', 'Dingo', 'Doberman', 'Elk Hound', 'French Bulldog', 'German Sheperd',
+                   'Golden Retriever', 'Great Dane', 'Great Perenees', 'Greyhound', 'Groenendael', 'Irish Spaniel',
+                   'Irish Wolfhound', 'Japanese Spaniel', 'Komondor', 'Labradoodle', 'Labrador', 'Lhasa', 'Malinois',
+                   'Maltese', 'Mex Hairless', 'Newfoundland', 'Pekinese', 'Pit Bull', 'Pomeranian', 'Poodle', 'Pug',
+                   'Rhodesian', 'Rottweiler', 'Saint Bernard', 'Schnauzer', 'Scotch Terrier', 'Shar_Pei', 'Shiba Inu',
+                   'Shih-Tzu', 'Siberian Husky', 'Vizsla', 'Yorkie']
+
 
 # HTML Responses
 @app.get("/", response_class=HTMLResponse)
@@ -87,23 +105,33 @@ async def read_yoga_pose(request: Request):
 
 
 @app.get("/models/weather/weather.html", response_class=HTMLResponse)
-async def read_yoga_pose(request: Request):
+async def read_weather(request: Request):
     return templates1.TemplateResponse("weather/weather.html", {"request": request})
 
 
 @app.get("/models/sports_ball/sports_ball.html", response_class=HTMLResponse)
-async def read_yoga_pose(request: Request):
+async def read_sports_ball(request: Request):
     return templates1.TemplateResponse("sports_ball/sports_ball.html", {"request": request})
 
 
 @app.get("/models/mammals/mammals.html", response_class=HTMLResponse)
-async def read_yoga_pose(request: Request):
+async def read_mammals(request: Request):
     return templates1.TemplateResponse("mammals/mammals.html", {"request": request})
 
 
 @app.get("/models/flower/flower.html", response_class=HTMLResponse)
-async def read_yoga_pose(request: Request):
+async def read_flower(request: Request):
     return templates1.TemplateResponse("flower/flower.html", {"request": request})
+
+
+@app.get("/models/card/card.html", response_class=HTMLResponse)
+async def read_card(request: Request):
+    return templates1.TemplateResponse("card/card.html", {"request": request})
+
+
+@app.get("/models/dog_breed/dog_breed.html", response_class=HTMLResponse)
+async def read_dog_breed(request: Request):
+    return templates1.TemplateResponse("dog_breed/dog_breed.html", {"request": request})
 
 
 # Function Converting Img --> Array
@@ -158,7 +186,7 @@ async def weather(file: UploadFile = File(...)):
     img = np.expand_dims(img, axis=0)
 
     predicted = weather_model.predict(img)
-    result = cards_class[np.argmax(predicted[0])]
+    result = weather_class[np.argmax(predicted[0])]
     confidence = np.max(predicted[0])
 
     return {
@@ -195,6 +223,42 @@ async def predict_mammals(file: UploadFile = File(...)):
 
     predicted = mammals_model.predict(img)
     result = mammals_class[np.argmax(predicted[0])]
+    confidence = np.max(predicted[0])
+
+    return {
+        'class': result,
+        'confidence': round(confidence * 100, 1)
+    }
+
+
+# Endpoint for card Model
+@app.post("/predict_card")
+async def predict_card(file: UploadFile = File(...)):
+    print("card Prediction endpoint called")
+    file.file.seek(0)
+    img = read_file_as_image(await file.read())
+    img = np.expand_dims(img, axis=0)
+
+    predicted = card_model.predict(img)
+    result = cards_class[np.argmax(predicted[0])]
+    confidence = np.max(predicted[0])
+
+    return {
+        'class': result,
+        'confidence': round(confidence * 100, 1)
+    }
+
+
+# Endpoint for Dog Breed Model
+@app.post("/predict_dog_breed")
+async def predict_dog_breed(file: UploadFile = File(...)):
+    print("Dog Breed Prediction endpoint called")
+    file.file.seek(0)
+    img = read_file_as_image(await file.read())
+    img = np.expand_dims(img, axis=0)
+
+    predicted = dog_breed_model.predict(img)
+    result = dog_breed_class[np.argmax(predicted[0])]
     confidence = np.max(predicted[0])
 
     return {
