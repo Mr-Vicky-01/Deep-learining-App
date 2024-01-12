@@ -144,7 +144,7 @@ def read_file_as_image(data):
 # Endpoint for Sports Ball Model
 @app.post("/predict_sports_ball")
 async def predict_sports_ball(file: UploadFile = File(...)):
-    print("Prediction endpoint called")
+    print("Sports Ball Prediction endpoint called")
     file.file.seek(0)
     img = read_file_as_image(await file.read())
     img = np.expand_dims(img, axis=0)
@@ -162,7 +162,7 @@ async def predict_sports_ball(file: UploadFile = File(...)):
 # EndPoint For Flower Model
 @app.post("/predict_flower")
 async def predict_flower(file: UploadFile = File(...)):
-    print("Prediction endpoint called")
+    print("Flower Prediction endpoint called")
     file.file.seek(0)
     img = read_file_as_image(await file.read())
     img = np.expand_dims(img, axis=0)
@@ -180,7 +180,7 @@ async def predict_flower(file: UploadFile = File(...)):
 # Endpoint for Weather Model
 @app.post("/predict_weather")
 async def weather(file: UploadFile = File(...)):
-    print("Prediction endpoint called")
+    print("Weather Prediction endpoint called")
     file.file.seek(0)
     img = read_file_as_image(await file.read())
     img = np.expand_dims(img, axis=0)
@@ -198,7 +198,7 @@ async def weather(file: UploadFile = File(...)):
 # Endpoint for Yoga Pose Model
 @app.post("/predict_yoga_pose")
 async def predict_yoga_pose(file: UploadFile = File(...)):
-    print("Prediction endpoint called")
+    print("Yoga Prediction endpoint called")
     file.file.seek(0)
     img = read_file_as_image(await file.read())
     img = np.expand_dims(img, axis=0)
@@ -216,7 +216,7 @@ async def predict_yoga_pose(file: UploadFile = File(...)):
 # Endpoint for Mammals Model
 @app.post("/predict_mammals")
 async def predict_mammals(file: UploadFile = File(...)):
-    print("Prediction endpoint called")
+    print("Mammals Prediction endpoint called")
     file.file.seek(0)
     img = read_file_as_image(await file.read())
     img = np.expand_dims(img, axis=0)
