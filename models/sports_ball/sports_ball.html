@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-    <link rel="stylesheet" href="static/sports_ball.css?v=1">
+    <link rel="stylesheet" href="static/sports_ball.css?v=4">
     <title>Sports Ball Prediction</title>
 </head>
 <body>
@@ -26,7 +26,10 @@
             <img id="imagePreview">
         </div>
         <div id="predictionResult" class="container"></div>
-        <button type="submit" class="predict-btn">Predict</button>
+        <button type="submit" class="predict-btn" id="predictButton">
+            <span class="loading-icon" id="loadingIcon"></span>
+            Predict
+        </button>
     </form>
     <script src="static/sports_ball.js"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
