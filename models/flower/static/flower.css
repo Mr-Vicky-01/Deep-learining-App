@@ -29,10 +29,8 @@ body {
 .header-container {
     max-width: 600px;
     margin: 0 auto;
-    background-color: ##f4d03f;/* Adjust the alpha value for transparency */
     border-radius: 8px;
     padding: 20px;
-    border: 1px solid ##3498db;
     border-radius: 10px;
     text-align: center;
     margin-bottom: 20px;
@@ -76,14 +74,16 @@ h1 {
     justify-content: center;
     font-size: 18px;
     color: rgb(176, 37, 181);
-
     font-weight: bold;
     cursor: pointer;
     transition: color 0.3s ease;
 }
 
-#fileInputLabel:hover {
+#fileInput :hover {
     color: #297fb8;
+    letter-spacing: 2px;
+    box-shadow: #2c96ba 0px 7px 29px 0px;
+    outline: none;
 }
 
 #imagePreview {
@@ -101,7 +101,6 @@ h1 {
 #imageContainer {
     text-align: center;
     backdrop-filter: blur(10px); /* Adjust the blur value as needed */
-
     border-radius: 8px;
     padding: 10px;
     margin-bottom: 20px;
@@ -121,14 +120,25 @@ h1 {
     color:white;
     font-weight: bold;
     border: none;
-    border-radius: 5px;
+    border-radius: 50px;
     cursor: pointer;
-    transition: background-color 0.3s;
+    transition: background-color 0.2s;
 }
 
 .predict-btn:hover {
     background-color: #2c96ba;
+    letter-spacing: 2px;
+    box-shadow: #2c96ba 0px 7px 29px 0px;
+}
 
+.predict-btn:active {
+    background-color: #2c96ba;
+    letter-spacing: 2px;
+    box-shadow: #2c96ba 0px 7px 29px 0px;
+    transform: translateY(10px);
+}
+.predict-btn:focus {
+    outline: none;
 }
 
 #predictionResult {
