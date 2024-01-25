@@ -32,6 +32,8 @@ app.mount("/models/mammals/static", StaticFiles(directory='models/mammals/static
 app.mount("/models/flower/static", StaticFiles(directory='models/flower/static'), name='static_flower')
 app.mount("/models/card/static", StaticFiles(directory='models/card/static'), name='static_card')
 app.mount("/models/dog_breed/static", StaticFiles(directory='models/dog_breed/static'), name='static_dog_breed')
+app.mount("/models/chess/static", StaticFiles(directory='models/chess/static'), name='static_chess')
+app.mount("/models/bird/static", StaticFiles(directory='models/bird/static'), name='static_bird')
 
 # templates
 templates = Jinja2Templates(directory="frontend")
@@ -39,13 +41,14 @@ templates1 = Jinja2Templates(directory="models")
 
 # DL or Ml Models (Loading)..
 sports_ball_model = tf.keras.models.load_model('models/sports_ball/Sports_ball_prediction_v2.h5')
-weather_model = tf.keras.models.load_model('models/sports_ball/Sports_ball_prediction_v2.h5')
-flower_model = tf.keras.models.load_model('models/yoga_pose/yoga-modelv2.h5')
+weather_model = tf.keras.models.load_model('models/weather/weather_prediction_v2.h5')
+flower_model = tf.keras.models.load_model('models/flower/flower_prediction.h5')
 yoga_pose_model = tf.keras.models.load_model('models/yoga_pose/yoga-modelv2.h5')
 mammals_model = tf.keras.models.load_model('models/mammals/Mammals_predictionv1.h5')
 card_model = tf.keras.models.load_model('models/card/card_model_v2.h5')
 dog_breed_model = tf.keras.models.load_model("models/dog_breed/dog_breedv3.h5")
-
+chess_model = tf.keras.models.load_model("models/chess/chess_prediction_v4.h5")
+bird_model = tf.keras.models.load_model("models/bird/bird_modelV2.h5")
 
 # classes For All Models
 yoga_class = ['Bridge Pose', 'Child-Pose', 'CobraPose',
@@ -92,6 +95,14 @@ dog_breed_class = ['Afghan','African Wild Dog', 'Airedale', 'American Hairless',
                    'Rhodesian', 'Rottweiler', 'Saint Bernard', 'Schnauzer', 'Scotch Terrier', 'Shar_Pei', 'Shiba Inu',
                    'Shih-Tzu', 'Siberian Husky', 'Vizsla', 'Yorkie']
 
+chess_class = ['Bishop', 'King', 'Knight', 'Pawn', 'Queen', 'Rook']
+
+bird_class = ['Asian-Green-Bee-Eater', 'Brown-Headed-Barbet', 'Cattle-Egret', 'Common-Kingfisher', 'Common-Myna',
+              'Common-Rosefinch', 'Common-Tailorbird', 'Coppersmith-Barbet', 'Forest-Wagtail', 'Gray-Wagtail', 'Hoopoe',
+              'House-Crow', 'Indian-Grey-Hornbill', 'Indian-Peacock', 'Indian-Pitta', 'Indian-Roller', 'Jungle-Babbler',
+              'Northern-Lapwing', 'Red-Wattled-Lapwing', 'Ruddy-Shelduck', 'Rufous-Treepie', 'Sarus-Crane',
+              'White-Breasted-Kingfisher', 'White-Breasted-Waterhen', 'White-Wagtail']
+
 
 # HTML Responses
 @app.get("/", response_class=HTMLResponse)
@@ -132,6 +143,16 @@ async def read_card(request: Request):
 @app.get("/models/dog_breed/dog_breed.html", response_class=HTMLResponse)
 async def read_dog_breed(request: Request):
     return templates1.TemplateResponse("dog_breed/dog_breed.html", {"request": request})
+
+
+@app.get("/models/chess/chess.html", response_class=HTMLResponse)
+async def read_chess(request: Request):
+    return templates1.TemplateResponse("chess/chess.html", {"request": request})
+
+
+@app.get("/models/bird/bird.html", response_class=HTMLResponse)
+async def read_bird(request: Request):
+    return templates1.TemplateResponse("bird/bird.html", {"request": request})
 
 
 # Function Converting Img --> Array
@@ -266,7 +287,42 @@ async def predict_dog_breed(file: UploadFile = File(...)):
         'confidence': round(confidence * 100, 1)
     }
 
+
+# Endpoint for chess Model
+@app.post("/predict_chess")
+async def predict_chess(file: UploadFile = File(...)):
+    print("Chess Prediction endpoint called")
+    file.file.seek(0)
+    img = read_file_as_image(await file.read())
+    img = np.expand_dims(img, axis=0)
+
+    predicted = chess_model.predict(img)
+    result = chess_class[np.argmax(predicted[0])]
+    confidence = np.max(predicted[0])
+
+    return {
+        'class': result,
+        'confidence': round(confidence * 100, 1)
+    }
+
+
+# Endpoint for bird Model
+@app.post("/predict_bird")
+async def predict_bird(file: UploadFile = File(...)):
+    print("bird Prediction endpoint called")
+    file.file.seek(0)
+    img = read_file_as_image(await file.read())
+    img = np.expand_dims(img, axis=0)
+
+    predicted = bird_model.predict(img)
+    result = bird_class[np.argmax(predicted[0])]
+    confidence = np.max(predicted[0])
+
+    return {
+        'class': result,
+        'confidence': round(confidence * 100, 1)
+    }
+
 # Run The Server In Localhost via Uvicorn
 if __name__ == '__main__':
-    uvicorn.run(app, host='0.0.0.0', port=1001)
-
+    uvicorn.run(app, host='localhost', port=8000)
