@@ -24,3 +24,12 @@ This web application utilizes intelligent image classification to identify and c
    ```bash
    git clone https://github.com/Mr-Vicky-01/Deplyment-Deep-learining.git
    cd image-classification-web-app
+
+## ScreenShots
+
+![image](https://github.com/Mr-Vicky-01/Deplyment-Deep-learining/assets/143078285/0a9780eb-0a9c-4973-bf44-75f90c292a7b)
+![image](https://github.com/Mr-Vicky-01/Deplyment-Deep-learining/assets/143078285/3f0bb0b0-5b3f-4989-bc47-b1af8f6c5b27)
+![image](https://github.com/Mr-Vicky-01/Deplyment-Deep-learining/assets/143078285/dcae7953-1517-482b-81a2-97976021e2e2)
+![image](https://github.com/Mr-Vicky-01/Deplyment-Deep-learining/assets/143078285/7d944abe-9f90-4e1a-bae2-1828415ce3cf)
+![image](https://github.com/Mr-Vicky-01/Deplyment-Deep-learining/assets/143078285/d588df7a-20c2-4da6-bf8f-8ebd3d666349)
+![image](https://github.com/Mr-Vicky-01/Deplyment-Deep-learining/assets/143078285/309cf052-e487-4771-9660-fbbe92b39b0d)
