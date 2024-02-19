@@ -33,3 +33,8 @@ This web application utilizes intelligent image classification to identify and c
 ![image](https://github.com/Mr-Vicky-01/Deplyment-Deep-learining/assets/143078285/7d944abe-9f90-4e1a-bae2-1828415ce3cf)
 ![image](https://github.com/Mr-Vicky-01/Deplyment-Deep-learining/assets/143078285/d588df7a-20c2-4da6-bf8f-8ebd3d666349)
 ![image](https://github.com/Mr-Vicky-01/Deplyment-Deep-learining/assets/143078285/309cf052-e487-4771-9660-fbbe92b39b0d)
+
+## Demo Video
+
+https://github.com/Mr-Vicky-01/Deplyment-Deep-learining/assets/143078285/7efa646d-cd3a-4676-870c-d90e8cdedf11
+
