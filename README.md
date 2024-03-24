@@ -30,7 +30,7 @@ This web application utilizes intelligent image classification to identify and c
 
 https://github.com/Mr-Vicky-01/Deplyment-Deep-learining/assets/143078285/7efa646d-cd3a-4676-870c-d90e8cdedf11
 
-## Try this website
+## Try my Application
 
 https://deloyment-ml.onrender.com
 
