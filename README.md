@@ -32,5 +32,5 @@ https://github.com/Mr-Vicky-01/Deplyment-Deep-learining/assets/143078285/7efa646
 
 ## Try my Application
 
-https://deloyment-ml.onrender.com
+[Link](https://huggingface.co/spaces/Mr-Vicky-01/web_app)
 
